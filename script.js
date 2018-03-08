@@ -11,6 +11,7 @@ const sentences = [
 ];
 
 const ts = () => ( new Date() ).getTime();
+const round = ( value, decimals ) => Number(Math.round(value+'e'+decimals)+'e-'+decimals);
 
 const startTime = ts();
 let currentTime = startTime;
@@ -44,7 +45,7 @@ const renderResult = ( endTime ) => {
 	let correct = 0;
 	const seconds = ( endTime - startTime ) / 1000;
 
-	content += `<div>Congratulations! You finished in ${seconds} seconds</div>`;
+	content += `<div>Congratulations! You finished in ${ round(seconds, 3) } seconds</div>`;
 	content += `<div>You typed ${total} characters`;
 
 	progress.forEach( function( key ) {
@@ -55,7 +56,7 @@ const renderResult = ( endTime ) => {
 
 	const percent = correct / total * 100;
 
-	content += `<div>${correct} were correct (${percent} %)`;
+	content += `<div>${correct} were correct (${ round( percent, 3) }%)`;
 
 	resultElement.innerHTML = content;
 };
@@ -83,5 +84,6 @@ document.onkeyup = ( event ) => {
 	if (event.code === 'Backspace') {
 		progress.splice(-1, 1);
 		renderProgress();
+		event.preventDefault();
 	}
 };
