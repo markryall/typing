@@ -20,8 +20,7 @@
 	</head>
 	<body>
 	<div id="container">
-		<div id="expected"></div>
-		<div id="actual"></div>
+		<div id="content"></div>
 	</div>
 
 	<script type="text/javascript" charset="utf-8">
@@ -35,30 +34,33 @@
 		const events = [];
 		const corpus = "whatever";
 
-		const expectedElement = document.getElementById("expected");
-		const actualElement = document.getElementById("actual");
-
-		expectedElement.innerHTML = corpus;
+		const contentElement = document.getElementById( 'content' );
 
 		function renderProgress() {
 			let content = '';
 
 			progress.forEach(function(key) {
-				const style = key.expectedChar === key.actualChar ? 'right' : 'wrong';
-				content += `<span class="${style}">${key.actualChar}</span>`;
+				const style = key.expected === key.actual ? 'right' : 'wrong';
+				content += `<span class="${style}">${key.actual}</span>`;
 			});
 
-			actualElement.innerHTML = content;
+			for( let index=progress.length; index < corpus.length; index++ ) {
+				content += corpus[index];
+			}
+
+			contentElement.innerHTML = content;
 		}
+
+		renderProgress();
 
 		document.onkeyup = function (event) {
 			const newTime = ts();
 			if (event.key.length === 1) {
-				const expectedChar = corpus[progress.length];
-				const actualChar = event.key;
+				const expected = corpus[progress.length];
+				const actual = event.key;
 				const delay = newTime - currentTime;
 
-				progress.push({ expectedChar, actualChar, delay });
+				progress.push({ expected, actual, delay });
 				renderProgress();
 				currentTime = newTime;
 			}
