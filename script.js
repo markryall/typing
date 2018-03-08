@@ -43,7 +43,7 @@ const renderResult = ( endTime ) => {
 	let content = '';
 	const total = progress.length;
 	let correct = 0;
-	const seconds = ( endTime - startTime ) / 1000;
+	const seconds = ( endTime - startTime - progress[0].delay ) / 1000;
 
 	content += `<div>Congratulations! You finished in ${ round(seconds, 3) } seconds</div>`;
 	content += `<div>You typed ${total} characters`;
@@ -57,6 +57,16 @@ const renderResult = ( endTime ) => {
 	const percent = correct / total * 100;
 
 	content += `<div>${correct} were correct (${ round( percent, 3) }%)`;
+
+	const words = total / 5;
+	const minutes = seconds / 60;
+	const gross = words / minutes;
+	const errors = total - correct;
+	const net = ( words - errors ) / minutes;
+
+	content += `<div>Your gross wpm is ${ round( gross, 3 ) }</div>`;
+
+	content += `<div>Your net wpm is ${ round( net, 3) }</div>`;
 
 	resultElement.innerHTML = content;
 };
