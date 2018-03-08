@@ -39,9 +39,11 @@
 		function renderProgress() {
 			let content = '';
 
-			progress.forEach(function(key) {
-				const style = key.expected === key.actual ? 'right' : 'wrong';
-				content += `<span class="${style}">${key.expected}</span>`;
+			progress.forEach( function( key ) {
+				if ( key.expected ) {
+					const style = key.expected === key.actual ? 'right' : 'wrong';
+					content += `<span class="${style}">${key.expected}</span>`;
+				}
 			});
 
 			for( let index=progress.length; index < corpus.length; index++ ) {
