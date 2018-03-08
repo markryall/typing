@@ -41,7 +41,7 @@
 
 			progress.forEach(function(key) {
 				const style = key.expected === key.actual ? 'right' : 'wrong';
-				content += `<span class="${style}">${key.actual}</span>`;
+				content += `<span class="${style}">${key.expected}</span>`;
 			});
 
 			for( let index=progress.length; index < corpus.length; index++ ) {
