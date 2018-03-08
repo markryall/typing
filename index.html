@@ -27,6 +27,7 @@
 	<div id="container">
 		<div id="instructions">Hello! This is a typing speed test.  Just type the following sentence as fast as you can:</div>
 		<div id="content"></div>
+		<div id="result"></div>
 	</div>
 
 	<script type="text/javascript" charset="utf-8">
@@ -70,6 +71,7 @@ some nonsensical hope.`
 		const corpus = sentences[ Math.floor( Math.random() * sentences.length ) ];
 
 		const contentElement = document.getElementById( 'content' );
+		const resultElement = document.getElementById( 'result' );
 
 		function renderProgress() {
 			let content = '';
@@ -88,11 +90,15 @@ some nonsensical hope.`
 			contentElement.innerHTML = content;
 		}
 
+		function renderResult( endTime ) {
+			const seconds = ( endTime - startTime ) / 1000;
+			resultElement.innerHTML = `Congratulations! You finished in ${seconds} seconds`;
+		}
+
 		renderProgress();
 
 		document.onkeypress = function ( event ) {
 			const newTime = ts();
-			console.log(event);
 			if (event.key.length === 1) {
 				const expected = corpus[progress.length];
 				const actual = event.key;
@@ -102,6 +108,9 @@ some nonsensical hope.`
 				renderProgress();
 				currentTime = newTime;
 				event.preventDefault();
+				if ( progress.length == corpus.length ) {
+					renderResult( newTime );
+				}
 			}
 		}
 		document.onkeyup = function( event ) {
