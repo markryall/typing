@@ -1,35 +1,16 @@
 const sentences = [
-	`When Gregor was already sticking half way out of the bed - the new
-method was more of a game than an effort, all he had to do was rock
-back and forth - it occurred to him how simple everything would be
-if somebody came to help him.`,
-	`Two strong people - he had his father
-and the maid in mind - would have been more than enough; they would
-only have to push their arms under the dome of his back, peel him
-away from the bed, bend down with the load and then be patient and
-careful as he swang over onto the floor, where, hopefully, the
-little legs would find a use.`,
-	`Should he really call for help
-though, even apart from the fact that all the doors were locked?
-Despite all the difficulty he was in, he could not suppress a smile
-at this thought.`,
-	`After a while he had already moved so far across that it would have
-been hard for him to keep his balance if he rocked too hard.`,
-	`The
-time was now ten past seven and he would have to make a final
-decision very soon.`,
-	`Then there was a ring at the door of the flat.
-"That'll be someone from work", he said to himself, and froze very
-still, although his little legs only became all the more lively as
-they danced around.`,
-	`For a moment everything remained quiet.
-"They're not opening the door", Gregor said to himself, caught in
-some nonsensical hope.`
+	`When Gregor was already sticking half way out of the bed - the new method was more of a game than an effort, all he had to do was rock back and forth - it occurred to him how simple everything would be if somebody came to help him.`,
+	`Two strong people - he had his father and the maid in mind - would have been more than enough; they would only have to push their arms under the dome of his back, peel him away from the bed, bend down with the load and then be patient and careful as he swang over onto the floor, where, hopefully, the little legs would find a use.`,
+	`Should he really call for help though, even apart from the fact that all the doors were locked? Despite all the difficulty he was in, he could not suppress a smile at this thought.`,
+	`After a while he had already moved so far across that it would have been hard for him to keep his balance if he rocked too hard.`,
+	`The time was now ten past seven and he would have to make a final decision very soon.`,
+	`Then there was a ring at the door of the flat.`,
+	`"That'll be someone from work", he said to himself, and froze very still, although his little legs only became all the more lively as they danced around.`,
+	`For a moment everything remained quiet.`,
+	`"They're not opening the door", Gregor said to himself, caught in some nonsensical hope.`
 ];
 
-function ts() {
-	return (new Date()).getTime();
-}
+const ts = () => ( new Date() ).getTime();
 
 const startTime = ts();
 let currentTime = startTime;
@@ -40,7 +21,7 @@ const corpus = sentences[ Math.floor( Math.random() * sentences.length ) ];
 const contentElement = document.getElementById( 'content' );
 const resultElement = document.getElementById( 'result' );
 
-function renderProgress() {
+const renderProgress = () => {
 	let content = '';
 
 	progress.forEach( function( key ) {
@@ -55,9 +36,9 @@ function renderProgress() {
 	}
 
 	contentElement.innerHTML = content;
-}
+};
 
-function renderResult( endTime ) {
+const renderResult = ( endTime ) => {
 	let content = '';
 	const total = progress.length;
 	let correct = 0;
@@ -77,11 +58,11 @@ function renderResult( endTime ) {
 	content += `<div>${correct} were correct (${percent} %)`;
 
 	resultElement.innerHTML = content;
-}
+};
 
 renderProgress();
 
-document.onkeypress = function ( event ) {
+document.onkeypress = ( event ) => {
 	const newTime = ts();
 	if (event.key.length === 1) {
 		const expected = corpus[progress.length];
@@ -96,11 +77,11 @@ document.onkeypress = function ( event ) {
 			renderResult( newTime );
 		}
 	}
-}
+};
 
-document.onkeyup = function( event ) {
+document.onkeyup = ( event ) => {
 	if (event.code === 'Backspace') {
 		progress.splice(-1, 1);
 		renderProgress();
 	}
-}
+};
