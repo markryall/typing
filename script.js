@@ -80,7 +80,7 @@ document.onkeypress = ( event ) => {
 	}
 };
 
-document.onkeyup = ( event ) => {
+document.onkeydown = ( event ) => {
 	if (event.code === 'Backspace') {
 		progress.splice(-1, 1);
 		renderProgress();
