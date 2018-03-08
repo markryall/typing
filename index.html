@@ -91,8 +91,25 @@ some nonsensical hope.`
 		}
 
 		function renderResult( endTime ) {
+			let content = '';
+			const total = progress.length;
+			let correct = 0;
 			const seconds = ( endTime - startTime ) / 1000;
-			resultElement.innerHTML = `Congratulations! You finished in ${seconds} seconds`;
+
+			content += `<div>Congratulations! You finished in ${seconds} seconds</div>`;
+			content += `<div>You typed ${total} characters`;
+
+			progress.forEach( function( key ) {
+				if ( key.expected === key.actual) {
+					correct += 1;
+				}
+			} );
+
+			const percent = correct / total * 100;
+
+			content += `<div>${correct} were correct (${percent} %)`;
+
+			resultElement.innerHTML = content;
 		}
 
 		renderProgress();
