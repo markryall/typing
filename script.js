@@ -32,8 +32,9 @@ const renderProgress = () => {
 		}
 	});
 
-	for( let index=progress.length; index < corpus.length; index++ ) {
-		content += corpus[index];
+	for( let index = progress.length; index < corpus.length; index++ ) {
+		const char = index == progress.length ? `<span class='active'>${ corpus[ index ] }</span>` : corpus[ index ];
+		content += char;
 	}
 
 	contentElement.innerHTML = content;
