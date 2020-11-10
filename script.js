@@ -36,15 +36,15 @@ const sentences = [
   `She was showing an inquisitiveness that really made it seem like she was going senile.`
 ];
 
-const ts = () => ( new Date() ).getTime();
-const round = ( value, decimals ) => Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+const ts = () => (new Date()).getTime();
+const round = (value, decimals) => Number(Math.round(value+'e'+decimals)+'e-'+decimals);
 
 const startTime = ts();
 let currentTime = startTime;
 const progress = [];
 const events = [];
 const length = 5;
-const corpus = Array.from(Array(length).keys()).map(() => sentences[ Math.floor( Math.random() * sentences.length ) ]).join("  ");
+const corpus = Array.from(Array(length).keys()).map(() => sentences[Math.floor(Math.random() * sentences.length)]).join(" ");
 
 const contentElement = document.getElementById( 'content' );
 const resultElement = document.getElementById( 'result' );
@@ -52,70 +52,75 @@ const resultElement = document.getElementById( 'result' );
 const renderProgress = () => {
   let content = '';
 
-  progress.forEach( function( key ) {
-    if ( key.expected ) {
-      const style = key.expected === key.actual ? 'right' : 'wrong';
-      content += `<span class="${style}">${key.expected}</span>`;
+  progress.forEach(key => {
+    if (key.expected) {
+      let style = "right";
+      let text = key.expected;
+      if (key.expected !== key.actual) {
+        style = "wrong";
+        text = key.expected === " " ? "_" : key.expected;
+      }
+      content += `<span class="${style}">${text}</span>`;
     }
   });
 
-  for( let index = progress.length; index < corpus.length; index++ ) {
-    const char = index == progress.length ? `<span class='active'>${ corpus[ index ] }</span>` : corpus[ index ];
+  for(let index = progress.length; index < corpus.length; index++) {
+    const char = index == progress.length ? `<span class='active'>${corpus[index]}</span>` : corpus[index];
     content += char;
   }
 
   contentElement.innerHTML = content;
 };
 
-const renderResult = ( endTime ) => {
+const renderResult = (endTime) => {
   let content = '';
   const total = progress.length;
   let correct = 0;
-  const seconds = ( endTime - startTime - progress[0].delay ) / 1000;
+  const seconds = (endTime - startTime - progress[0].delay) / 1000;
 
   content += `<div>Congratulations! You finished in ${ round(seconds, 3) } seconds.</div>`;
 
-  progress.forEach( function( key ) {
+  progress.forEach(key => {
     if ( key.expected === key.actual) {
       correct += 1;
     }
-  } );
+  });
 
   const percent = correct / total * 100;
 
-  content += `<div>You typed ${correct}/${total} correctly (${ round( percent, 3) }%).`;
+  content += `<div>You typed ${correct} out of ${total} characters correctly (${ round( percent, 3) }%).`;
 
   const words = total / 5;
   const minutes = seconds / 60;
   const gross = words / minutes;
   const errors = total - correct;
-  const net = ( words - errors ) / minutes;
+  const net = (words - errors) / minutes;
 
-  content += `<div>Your gross wpm was ${ round( gross, 3 ) } and net ${ round( net, 3) }.</div>`;
+  content += `<div>Your gross wpm was ${round(gross, 3)} and net ${round(net, 3)}.</div>`;
 
   resultElement.innerHTML = content;
 };
 
 renderProgress();
 
-document.onkeypress = ( event ) => {
+document.onkeypress = event => {
   const newTime = ts();
   if (event.key.length === 1) {
     const expected = corpus[progress.length];
     const actual = event.key;
     const delay = newTime - currentTime;
 
-    progress.push({ expected, actual, delay });
+    progress.push({expected, actual, delay});
     renderProgress();
     currentTime = newTime;
     event.preventDefault();
-    if ( progress.length == corpus.length ) {
+    if (progress.length == corpus.length) {
       renderResult( newTime );
     }
   }
 };
 
-document.onkeydown = ( event ) => {
+document.onkeydown = event => {
   if (event.code === 'Backspace') {
     progress.splice(-1, 1);
     renderProgress();
