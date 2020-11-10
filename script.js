@@ -54,13 +54,8 @@ const renderProgress = () => {
 
   progress.forEach(key => {
     if (key.expected) {
-      let style = "right";
-      let text = key.expected;
-      if (key.expected !== key.actual) {
-        style = "wrong";
-        text = key.expected === " " ? "_" : key.expected;
-      }
-      content += `<span class="${style}">${text}</span>`;
+      const style = key.expected === key.actual ? "right" : "wrong";
+      content += `<span class="${style}">${key.expected}</span>`;
     }
   });
 
